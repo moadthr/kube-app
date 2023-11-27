@@ -1,0 +1,40 @@
+# services-chart/templates/frontend-service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.frontendService.name }}
+spec:
+  selector:
+    app: {{ .Values.frontendService.selector.app }}
+  ports:
+    - protocol: TCP
+      port: {{ .Values.frontendService.port }}
+      targetPort: {{ .Values.frontendService.targetPort }}
+  type: {{ .Values.frontendService.type }}
+---
+# services-chart/templates/backend-service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.backendService.name }}
+spec:
+  selector:
+    app: {{ .Values.backendService.selector.app }}
+  ports:
+    - protocol: TCP
+      port: {{ .Values.backendService.port }}
+      targetPort: {{ .Values.backendService.targetPort }}
+  type: {{ .Values.backendService.type }}
+---
+# postgres-service-chart/templates/postgres-service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.service.name }}
+spec:
+  selector:
+    app: postgres
+  ports:
+    - protocol: TCP
+      port: {{ .Values.service.port }}
+

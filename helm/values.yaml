@@ -1,0 +1,66 @@
+# services-chart/values.yaml
+backendService:
+  name: backend-service
+  selector:
+    app: backend
+  port: 8080
+  targetPort: 8080
+  type: ClusterIP
+
+frontendService:
+  name: frontend-service
+  selector:
+    app: frontend
+  port: 80
+  targetPort: 3000
+  type: LoadBalancer
+
+# my-app-chart/values.yaml
+frontendDeployment:
+  name: frontend
+  replicas: 1
+  image: moad/frontend:3.0
+  imagePullPolicy: Always
+  containerPort: 3000
+
+backendDeployment:
+  name: backend
+  replicas: 2
+  image: moad/backend:2.8
+  imagePullPolicy: Always
+  containerPort: 8080
+  cpuRequest: "100m"  # Initial CPU request for the container
+  cpuLimit: "500m"    # Maximum CPU limit for the container
+  memoryRequest: "128Mi"  # Initial memory request for the container
+  memoryLimit: "512Mi"
+
+# postgres-chart/values.yaml
+deployment:
+  name: postgres-deployment
+  replicas: 1
+
+container:
+  image: postgres:latest
+  dbName: mydatabase
+  username: myapplication
+  password: M3P@ssw0rd!
+  port: 5432
+
+# postgres-service-chart/values.yaml
+service:
+  name: postgres-service
+  port: 5432
+#probess
+probe:
+  path: /actuator/health  # Replace with your application's health endpoint
+  port: 8080              # The port your application is running on
+  initialDelaySeconds: 25 # Delay before first probe
+  periodSeconds: 15
+  failureThreshold: 2
+# autoscaler-chart/values.yaml
+hpa:
+  name: backend-hpa
+  targetDeployment: backend
+  minReplicas: 1
+  maxReplicas: 4  # Adjust as per your requirements
+  targetCPUUtilizationPercentage: 50
