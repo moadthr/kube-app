@@ -29,9 +29,9 @@ backendDeployment:
   image: moad/backend:2.8
   imagePullPolicy: Always
   containerPort: 8080
-  cpuRequest: "100m"  # Initial CPU request for the container
-  cpuLimit: "500m"    # Maximum CPU limit for the container
-  memoryRequest: "128Mi"  # Initial memory request for the container
+  cpuRequest: "100m"
+  cpuLimit: "500m"
+  memoryRequest: "128Mi"
   memoryLimit: "512Mi"
 
 # postgres-chart/values.yaml
@@ -52,9 +52,9 @@ service:
   port: 5432
 #probess
 probe:
-  path: /actuator/health  # Replace with your application's health endpoint
-  port: 8080              # The port your application is running on
-  initialDelaySeconds: 25 # Delay before first probe
+  path: /actuator/health
+  port: 8080
+  initialDelaySeconds: 25
   periodSeconds: 15
   failureThreshold: 2
 # autoscaler-chart/values.yaml
@@ -62,5 +62,5 @@ hpa:
   name: backend-hpa
   targetDeployment: backend
   minReplicas: 1
-  maxReplicas: 4  # Adjust as per your requirements
+  maxReplicas: 4
   targetCPUUtilizationPercentage: 50
