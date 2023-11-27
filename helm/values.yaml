@@ -63,4 +63,11 @@ hpa:
   targetDeployment: backend
   minReplicas: 1
   maxReplicas: 4
-  targetCPUUtilizationPercentage: 50
+  targetCPUUtilizationPercentage: 5
+ingress:
+  name: ingress-frontend
+  annotations:
+    ingressClass: nginx
+  backend:
+    serviceName: frontend-service
+    servicePort: 80
